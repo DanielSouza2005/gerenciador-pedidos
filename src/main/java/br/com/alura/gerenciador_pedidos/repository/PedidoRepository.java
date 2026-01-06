@@ -1,4 +1,7 @@
 package br.com.alura.gerenciador_pedidos.repository;
 
-public interface PedidoRepository {
+import br.com.alura.gerenciador_pedidos.model.Pedido;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 }

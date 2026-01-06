@@ -1,4 +1,7 @@
 package br.com.alura.gerenciador_pedidos.repository;
 
-public class ProdutoRepository {
+import br.com.alura.gerenciador_pedidos.model.Produto;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 }
