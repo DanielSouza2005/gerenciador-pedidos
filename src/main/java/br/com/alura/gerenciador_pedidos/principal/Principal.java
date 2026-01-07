@@ -44,4 +44,81 @@ public class Principal {
 
         fornecedorRepository.save(fornecedor);
     }
+
+    public void testarQueriesRepositories() {
+
+        Categoria categoria = categoriaRepository.findAll().getFirst();
+        System.out.println("Categoria Encontrada: " + categoria.getNome() + " " + categoria.getId());
+
+        System.out.println("=== PRODUTO REPOSITORY ===");
+
+        System.out.println("findByNome:");
+        produtoRepository.findByNome("Uva")
+                .forEach(p -> System.out.println(p.getNome()));
+
+        System.out.println("findByCategoria:");
+        produtoRepository.findByCategoria(categoria)
+                .forEach(p -> System.out.println(p.getNome()));
+
+        System.out.println("findByPrecoGreaterThan:");
+        produtoRepository.findByPrecoGreaterThan(10.0)
+                .forEach(p -> System.out.println(p.getNome()));
+
+        System.out.println("findByPrecoLessThan:");
+        produtoRepository.findByPrecoLessThan(11.3)
+                .forEach(p -> System.out.println(p.getNome()));
+
+        System.out.println("findByNomeContainingIgnoreCase:");
+        produtoRepository.findByNomeContainingIgnoreCase("ma")
+                .forEach(p -> System.out.println(p.getNome()));
+
+        System.out.println("findByCategoriaOrderByPreco:");
+        produtoRepository.findByCategoriaOrderByPreco(categoria)
+                .forEach(p -> System.out.println(p.getNome() + " - " + p.getPreco()));
+
+        System.out.println("findByCategoriaOrderByPrecoDesc:");
+        produtoRepository.findByCategoriaOrderByPrecoDesc(categoria)
+                .forEach(p -> System.out.println(p.getNome() + " - " + p.getPreco()));
+
+        System.out.println("findTop3ByOrderByPrecoDesc:");
+        produtoRepository.findTop3ByOrderByPrecoDesc()
+                .forEach(p -> System.out.println(p.getNome() + " - " + p.getPreco()));
+
+        System.out.println("findTop5ByCategoriaOrderByPreco:");
+        produtoRepository.findTop5ByCategoriaOrderByPreco(categoria)
+                .forEach(p -> System.out.println(p.getNome() + " - " + p.getPreco()));
+
+        System.out.println("countByCategoria:");
+        System.out.println(produtoRepository.countByCategoria(categoria));
+
+        System.out.println("countByPrecoGreaterThan:");
+        System.out.println(produtoRepository.countByPrecoGreaterThan(5.0));
+
+        System.out.println("countByPrecoLessThanOrNomeContainingIgnoreCase:");
+        System.out.println(produtoRepository.countByPrecoLessThanOrNomeContainingIgnoreCase(15.0, "ma"));
+
+        System.out.println("\n=== PEDIDO REPOSITORY ===");
+
+        System.out.println("findByDataNull:");
+        pedidoRepository.findByDataNull()
+                .forEach(p -> System.out.println(p.getId()));
+
+        System.out.println("findByDataNotNull:");
+        pedidoRepository.findByDataNotNull()
+                .forEach(p -> System.out.println(p.getId() + " - " + p.getData()));
+
+        System.out.println("findByDataGreaterThan:");
+        pedidoRepository.findByDataGreaterThan(LocalDate.now().minusDays(1))
+                .forEach(p -> System.out.println(p.getId()));
+
+        System.out.println("findByDataLessThan:");
+        pedidoRepository.findByDataLessThan(LocalDate.now().plusDays(1))
+                .forEach(p -> System.out.println(p.getId()));
+
+        System.out.println("findByDataBetween:");
+        pedidoRepository.findByDataBetween(
+                LocalDate.now().minusDays(5),
+                LocalDate.now().plusDays(5)
+        ).forEach(p -> System.out.println(p.getId()));
+    }
 }
