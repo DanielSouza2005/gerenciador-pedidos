@@ -21,7 +21,8 @@ public class GerenciadorPedidosApplication implements CommandLineRunner {
 
     @Override
     public void run(String @NonNull ... args) throws Exception {
-//        principal.cadastrarEntidades();
+        principal.cadastrarEntidades();
         principal.testarQueriesRepositories();
+        principal.testarQueriesJPQLENativas();
     }
 }

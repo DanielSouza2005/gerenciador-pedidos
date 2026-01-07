@@ -121,4 +121,56 @@ public class Principal {
                 LocalDate.now().plusDays(5)
         ).forEach(p -> System.out.println(p.getId()));
     }
+
+    public void testarQueriesJPQLENativas() {
+
+        Categoria categoria = categoriaRepository.findAll().getFirst();
+        System.out.println("Categoria Encontrada: " + categoria.getNome() + " " + categoria.getId());
+
+        System.out.println("\n=== PRODUTO REPOSITORY (JPQL / NATIVE) ===");
+
+        System.out.println("\n[JPQL] Produtos com preço maior que:");
+        produtoRepository.buscaPorPrecoMaiorQue(5.0)
+                .forEach(p -> System.out.println(p.getNome() + " - " + p.getPreco()));
+
+        System.out.println("\n[JPQL] Produtos ordenados por preço (ASC):");
+        produtoRepository.buscaPorOrderByPreco()
+                .forEach(p -> System.out.println(p.getNome() + " - " + p.getPreco()));
+
+        System.out.println("\n[JPQL] Produtos ordenados por preço (DESC):");
+        produtoRepository.buscaPorOrderByPrecoDesc()
+                .forEach(p -> System.out.println(p.getNome() + " - " + p.getPreco()));
+
+        System.out.println("\n[JPQL] Produtos que começam com a letra M:");
+        produtoRepository.buscaPorProdutosQueComecamCom("M")
+                .forEach(p -> System.out.println(p.getNome()));
+
+        System.out.println("\n[JPQL] Média de preços dos produtos:");
+        System.out.println(produtoRepository.buscaMediaPrecoProdutos());
+
+        System.out.println("\n[JPQL] Preço máximo por categoria:");
+        System.out.println(produtoRepository.buscaPrecoMaximoPorCategoria(categoria));
+
+        System.out.println("\n[JPQL] Categorias com mais de 10 produtos:");
+        produtoRepository.buscarCategoriasComMaisDeDezProdutos()
+                .forEach(c -> System.out.println(c.getNome()));
+
+        System.out.println("\n[JPQL] Produtos por nome OU categoria:");
+        produtoRepository.buscarProdutosPorNomeOuCategoria("Ma", categoria)
+                .forEach(p -> System.out.println(p.getNome()));
+
+        System.out.println("\n[NATIVE] Top 3 produtos mais caros:");
+        produtoRepository.buscarTresProdutosMaisCaros()
+                .forEach(p -> System.out.println(p.getNome() + " - " + p.getPreco()));
+
+        // =====================================================
+        System.out.println("\n=== PEDIDO REPOSITORY (JPQL) ===");
+
+        System.out.println("\n[JPQL] Pedidos entre duas datas:");
+        pedidoRepository.buscaPedidosEntreDuasDatas(
+                LocalDate.now().minusDays(5),
+                LocalDate.now().plusDays(5)
+        ).forEach(p -> System.out.println(p.getId() + " - " + p.getData()));
+    }
+
 }
